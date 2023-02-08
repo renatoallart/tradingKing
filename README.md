@@ -26,6 +26,7 @@ Learn React, and how to do API requests.
 - [Tailwindcss](https://tailwindcss.com/)
 - [Axios](https://axios-http.com/)
 - [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [ApexChart](https://apexcharts.com/)
 
 ## Getting Started
 

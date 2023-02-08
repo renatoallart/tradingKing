@@ -1,24 +1,28 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
-import { finnHub } from "../apis/finnHub";
-import { useWatchListContext } from "../context/WatchStockList";
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import {
+  BsCheckLg,
+  BsFillCaretDownFill,
+  BsFillCaretUpFill,
+} from "react-icons/bs"
+import { finnHub } from "../apis/finnHub"
+import { useWatchListContext } from "../context/WatchStockList"
 
 export const StockList = () => {
-  const [stock, setStock] = useState([]);
-  const { watchList, deleteStock } = useWatchListContext();
-  const navigate = useNavigate();
+  const [stock, setStock] = useState([])
+  const { watchList, deleteStock } = useWatchListContext()
+  const navigate = useNavigate()
 
   const changeColor = (change) => {
-    return change > 0 ? "success" : "danger";
-  };
+    return change > 0 ? "success" : "danger"
+  }
 
   const renderIcon = (change) => {
-    return change > 0 ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />;
-  };
+    return change > 0 ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />
+  }
 
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true
     const fetchData = async () => {
       try {
         const responses = await Promise.all(
@@ -27,31 +31,31 @@ export const StockList = () => {
               params: {
                 symbol: stock,
               },
-            });
+            })
           })
-        );
+        )
 
-        console.log(responses);
+        console.log(responses)
         const data = responses.map((response) => {
           return {
             data: response.data,
             symbol: response.config.params.symbol,
-          };
-        });
-        console.log(data);
+          }
+        })
+        console.log(data)
         if (isMounted) {
-          setStock(data);
+          setStock(data)
         }
       } catch (err) {}
-    };
-    fetchData();
+    }
+    fetchData()
 
-    return () => (isMounted = false);
-  }, [watchList]);
+    return () => (isMounted = false)
+  }, [watchList])
 
   const handleStockSelect = (symbol) => {
-    navigate(`detail/${symbol}`);
-  };
+    navigate(`detail/${symbol}`)
+  }
 
   return (
     <div>
@@ -93,18 +97,18 @@ export const StockList = () => {
                   <button
                     className="btn btn-danger  btn-sm delete-button"
                     onClick={(e) => {
-                      e.stopPropagation();
-                      deleteStock(stockData.symbol);
+                      e.stopPropagation()
+                      deleteStock(stockData.symbol)
                     }}
                   >
                     Remove
                   </button>
                 </td>
               </tr>
-            );
+            )
           })}
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}

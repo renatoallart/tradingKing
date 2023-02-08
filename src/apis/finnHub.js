@@ -1,9 +1,9 @@
 import axios from "axios"
 
-const token = import.meta.env.VITE_FINNHUB_TOKEN
+// const token = import.meta.env.VITE_FINNHUB_TOKEN
 export const finnHub = axios.create({
   baseURL: "https://finnhub.io/api/v1",
   params: {
-    token: token,
+    token: import.meta.env.VITE_FINNHUB_TOKEN,
   },
 })

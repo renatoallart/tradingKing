@@ -1,22 +1,21 @@
-import { useState, useEffect } from 'react'
-import { finnHub } from '../apis/finnHub'
-import { useWatchListContext } from '../context/WatchStockList'
+import { useState, useEffect } from "react"
+import { finnHub } from "../apis/finnHub"
+import { useWatchListContext } from "../context/WatchStockList"
 
 export function Search() {
-
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("")
   const [results, setResults] = useState([])
-  const {addStock} = useWatchListContext()
+  const { addStock } = useWatchListContext()
 
   useEffect(() => {
     let isMounted = true
 
     async function fetchData() {
       try {
-        const response = await finnHub.get('/search', {
+        const response = await finnHub.get("/search", {
           params: {
-            q: search
-          }
+            q: search,
+          },
         })
         if (isMounted) setResults(response.data.result)
       } catch (error) {
@@ -34,42 +33,51 @@ export function Search() {
     setSearch(value)
   }
 
-  function renderDropdownMenu(){
-    const isShowDropdown = search ? 'show' : null
-    
-    return(
-      <ul 
-        style={{height:'500px', overflowY:'scroll', overflowX:'hidden', cursor:'pointer'}}
-        className={`dropdown-menu ${isShowDropdown}`}>
-        {results.map(result => 
-          <li onClick={()=>{ 
-            addStock(result.symbol,
-            setSearch(''))}} 
-            className='dropdown-item' key={result.symbol}> 
+  function renderDropdownMenu() {
+    const isShowDropdown = search ? "show" : null
+
+    return (
+      <ul
+        style={{
+          height: "500px",
+          overflowY: "scroll",
+          overflowX: "hidden",
+          cursor: "pointer",
+        }}
+        className={`dropdown-menu ${isShowDropdown}`}
+      >
+        {results.map((result) => (
+          <li
+            onClick={() => {
+              addStock(result.symbol, setSearch(""))
+            }}
+            className="dropdown-item"
+            key={result.symbol}
+          >
             {result.description} {result.symbol}
-          </li> )}
+          </li>
+        ))}
       </ul>
     )
   }
 
   return (
-    <div className='w-50 p-5 rounded mx-auto'>
-      <h2>{search}</h2>
-      <div className='form-floating dropdown'>
+    <div className="w-50 p-5 rounded mx-auto">
+      <div className="form-floating dropdown">
         <input
-          onChange={event => handleSearch(event)}
-          autoComplete='off'
-          className='form-control'
-          id='search'
+          onChange={(event) => handleSearch(event)}
+          autoComplete="off"
+          className="form-control"
+          id="search"
           type="text"
-          name='search'
+          name="search"
           value={search}
-          placeholder='Search'
-          style={{ backgroundColor: 'rgba(145,158,171,0.04)' }} />
+          placeholder="Search"
+          style={{ backgroundColor: "rgba(145,158,171,0.04)" }}
+        />
         <label htmlFor="search">Search</label>
         {renderDropdownMenu()}
       </div>
     </div>
-
   )
 }
